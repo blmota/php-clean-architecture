@@ -1,0 +1,45 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Source\Domain\Entities;
+
+use DateTimeInterface;
+use Source\Domain\ValueObjects\Cpf;
+
+final class UserPeople extends GeneralEntity
+{
+    private Cpf $document;
+    private DateTimeInterface $dateBirth;
+    private string $genre;
+
+    public function getDocument(): Cpf
+    {
+        return $this->document;
+    }
+
+    public function setDocument(string $document): void
+    {
+        $this->document = $document;
+    }
+
+    public function getDateBirth(): DateTimeInterface
+    {
+        return $this->dateBirth;
+    }
+
+    public function setDateBirth(string $dateBirth): void
+    {
+        $this->dateBirth = $dateBirth;
+    }
+
+    public function getGenre(): string
+    {
+        return $this->genre;
+    }
+
+    public function setGenre(string $genre): void
+    {
+        $this->genre = $genre;
+    }
+}
