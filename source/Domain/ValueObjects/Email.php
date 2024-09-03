@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Source\Domain\ValueObjects;
 
-use DomainException;
+use Source\Domain\Exceptions\ValueObjects\EmailInvalidException;
 
 class Email
 {
@@ -13,7 +13,7 @@ class Email
     public function __construct(string $email)
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new DomainException("Informe um e-mail válido!");
+            throw new EmailInvalidException("Informe um e-mail válido!");
         }
 
         $this->email = $email;

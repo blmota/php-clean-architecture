@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Source\Domain\Entities;
 
+use DateTime;
 use DateTimeInterface;
 use Source\Domain\ValueObjects\Cpf;
 
@@ -20,7 +21,7 @@ final class UserPeople extends GeneralEntity
 
     public function setDocument(string $document): void
     {
-        $this->document = $document;
+        $this->document = new Cpf($document);
     }
 
     public function getDateBirth(): DateTimeInterface
@@ -30,7 +31,7 @@ final class UserPeople extends GeneralEntity
 
     public function setDateBirth(string $dateBirth): void
     {
-        $this->dateBirth = $dateBirth;
+        $this->dateBirth = new DateTime($dateBirth);
     }
 
     public function getGenre(): string

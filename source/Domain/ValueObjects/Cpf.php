@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Source\Domain\ValueObjects;
 
-use DomainException;
+use Source\Domain\Exceptions\ValueObjects\CpfInvalidException;
 
 final class Cpf
 {
@@ -13,7 +13,7 @@ final class Cpf
     public function __construct(string $cpf)
     {
         if (!$this->validate($cpf)) {
-            throw new DomainException("O cpf é inválido.");
+            throw new CpfInvalidException("O cpf é inválido.");
         }
         
         $this->cpf = $cpf;

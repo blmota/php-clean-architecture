@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Source\Domain\ValueObjects;
 
-use DomainException;
+use Source\Domain\Exceptions\ValueObjects\CnpjInvalidException;
 
 final class Cnpj
 {
@@ -13,7 +13,7 @@ final class Cnpj
     public function __construct($cnpj)
     {
         if (!$this->validate($cnpj)) {
-            throw new DomainException("O cnpj é inválido.");
+            throw new CnpjInvalidException("O cnpj é inválido.");
         }
 
         $this->cnpj = $cnpj;

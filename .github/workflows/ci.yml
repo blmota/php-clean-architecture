@@ -16,8 +16,8 @@ jobs:
         image: 'mariadb:11.0'
         env:
           MYSQL_ROOT_PASSWORD: Test2024!@#$%
-          MYSQL_DATABASE: manager
-          MYSQL_USER: manager_admin
+          MYSQL_DATABASE: system
+          MYSQL_USER: system_admin
           MYSQL_PASSWORD: Test2024!@#$%
         options: >-
           --health-cmd="mysqladmin ping --silent"

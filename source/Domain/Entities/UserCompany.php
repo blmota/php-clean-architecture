@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Source\Domain\Entities;
 
+use DateTime;
 use DateTimeInterface;
+use DomainException;
 use Source\Domain\ValueObjects\Cnpj;
 
 final class UserCompany extends GeneralEntity
@@ -19,7 +21,7 @@ final class UserCompany extends GeneralEntity
 
     public function setDocument(string $document): void
     {
-        $this->document = $document;
+        $this->document = new Cnpj($document);
     }
 
     public function getDateStart(): DateTimeInterface
@@ -29,6 +31,6 @@ final class UserCompany extends GeneralEntity
 
     public function setDateStart(string $dateStart): void
     {
-        $this->dateStart = $dateStart;
+        $this->dateStart = new DateTime($dateStart);
     }
 }

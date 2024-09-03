@@ -9,8 +9,8 @@ use DateTimeInterface;
 abstract class GeneralEntity
 {
     private ?int $id;
-    private DateTimeInterface $createdAt;
-    private DateTimeInterface $updatedAt;
+    private ?DateTimeInterface $createdAt;
+    private ?DateTimeInterface $updatedAt;
 
     public function getId(): ?int
     {

@@ -13,8 +13,8 @@ final class User extends GeneralEntity
     private string $lastName;
     private string $type;
     private Email $email;
-    private Password $password;
-    private int $status;    
+    private ?Password $password;
+    private int $status;
 
     public function getFullName(): string
     {
@@ -58,16 +58,21 @@ final class User extends GeneralEntity
 
     public function setEmail(string $email): void
     {
-        $this->email = $email;
+        $this->email = new Email($email);
     }
 
     public function setPassword(string $password): void
     {
-        $this->password = $password;
+        $this->password = new Password($password);
     }
 
     public function getStatus(): int
     {
         return $this->status;
+    }
+
+    public function setStatus(int $status): void
+    {
+        $this->status = $status;
     }
 }

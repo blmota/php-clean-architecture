@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Source\App\Usecases\Transfer;
 
-use DateTime;
 use Exception;
 use Source\Domain\Entities\Transfer as EntitiesTransfer;
 use Source\Domain\Repositories\TransferRepository;
