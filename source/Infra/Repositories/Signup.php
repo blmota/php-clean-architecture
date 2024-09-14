@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Source\Infra\Repositories;
 
-use Exception;
 use Source\Domain\Entities\User;
 use Source\Domain\Repositories\SignupRepository;
 use Source\Infra\Database\MariaDB\PdoRepository;
+use Source\Domain\Exceptions\RepositoryFailedException;
 
 final class Signup extends PdoRepository implements SignupRepository
 {
@@ -27,7 +27,7 @@ final class Signup extends PdoRepository implements SignupRepository
         $this->status = 1;
 
         if (!$this->save()) {
-            throw new Exception($this->message()->getText());
+            throw new RepositoryFailedException($this->message()->getText());
         }
 
         return (array) $this->data();
