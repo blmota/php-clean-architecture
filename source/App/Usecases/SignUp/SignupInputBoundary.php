@@ -4,24 +4,21 @@ declare(strict_types=1);
 
 namespace Source\App\Usecases\SignUp;
 
-use Source\Domain\ValueObjects\Email;
-use Source\Domain\ValueObjects\Password;
-
 final class SignupInputBoundary
 {
     private string $firstName;
     private string $lastName;
     private string $type;
-    private Email $email;
-    private Password $password;
+    private string $email;
+    private string $password;
     private ?int $level;
 
     public function __construct(
         string $firstName,
         string $lastName,
         string $type,
-        Email $email,
-        Password $password,
+        string $email,
+        string $password,
         int $level = 1
     )
     {

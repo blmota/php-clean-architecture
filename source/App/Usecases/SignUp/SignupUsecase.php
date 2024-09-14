@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Source\App\Usecases\SignUp;
 
+use DateTime;
 use Source\Domain\Entities\User;
 use Source\Domain\Repositories\SignupRepository;
 
@@ -27,6 +28,7 @@ final class SignupUsecase
         $newUser->setLevel(1);
 
         $response = $this->repository->execute($newUser);
+        $response["created_at"] = (new DateTime($response["created_at"]))->format("d/m/Y H\hi");
         return new SignupOutputBoundary($response);
     }
 }
