@@ -16,10 +16,10 @@ services:
             - '.:/application'
             - 'mariadb_data:/var/lib/mysql'  # Volume para persistir os dados do MariaDB
         environment:
-            - 'MYSQL_ROOT_PASSWORD=Test2024!@#$%'
-            - MYSQL_DATABASE=system
-            - MYSQL_USER=system_admin
-            - 'MYSQL_PASSWORD=Test2024!@#$%'
+            - 'MYSQL_ROOT_PASSWORD=${DB_CONNECT_PASS}'
+            - MYSQL_DATABASE=${DB_CONNECT_NAME}
+            - MYSQL_USER=${DB_CONNECT_USER}
+            - 'MYSQL_PASSWORD=${DB_CONNECT_PASS}'
         ports:
             - '8003:3306'
         networks:

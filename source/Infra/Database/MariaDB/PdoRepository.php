@@ -7,12 +7,11 @@ namespace Source\Infra\Database\MariaDB;
 use Exception;
 use PDOException;
 use PDO;
-use Source\Domain\Repositories\GenericRepository;
 use Source\Framework\Support\Message;
 use Source\Framework\Core\Connect;
 use Source\Framework\Core\Transaction;
 
-abstract class PdoRepository implements GenericRepository
+abstract class PdoRepository
 {
     /** @var object|null */
     protected $data;
@@ -153,7 +152,7 @@ abstract class PdoRepository implements GenericRepository
      * @param null|string $terms
      * @param null|string $params
      * @param string $columns
-     * @return Model|mixed
+     * @return PdoRepository|mixed
      */
     public function find(?string $terms = null, ?string $params = null, string $columns = "*"): PdoRepository
     {
@@ -171,7 +170,7 @@ abstract class PdoRepository implements GenericRepository
      * @param int $id
      * @param string $columns
      * @param string $field
-     * @return null|mixed|Model
+     * @return null|mixed|PdoRepository
      */
     public function findById(int $id, string $columns = "*", string $field = "ID"): ?PdoRepository
     {
@@ -181,7 +180,7 @@ abstract class PdoRepository implements GenericRepository
 
     /**
      * @param string $columnOrder
-     * @return Model
+     * @return PdoRepository
      */
     public function order(string $columnOrder): PdoRepository
     {
@@ -191,7 +190,7 @@ abstract class PdoRepository implements GenericRepository
 
     /**
      * @param string $columnOrder
-     * @return Model
+     * @return PdoRepository
      */
     public function group(string $columnGroup): PdoRepository
     {
@@ -201,7 +200,7 @@ abstract class PdoRepository implements GenericRepository
 
     /**
      * @param int $limit
-     * @return Model
+     * @return PdoRepository
      */
     public function limit(int $limit): PdoRepository
     {
@@ -211,7 +210,7 @@ abstract class PdoRepository implements GenericRepository
 
     /**
      * @param int $offset
-     * @return Model
+     * @return PdoRepository
      */
     public function offset(int $offset): PdoRepository
     {
@@ -221,9 +220,9 @@ abstract class PdoRepository implements GenericRepository
 
     /**
      * @param bool $all
-     * @return null|array|mixed|Model
+     * @return null|array|mixed|PdoRepository
      */
-    public function fetch(bool $all = false): PdoRepository
+    public function fetch(bool $all = false): ?PdoRepository
     {
         try {
             if(!empty($this->params)) {
