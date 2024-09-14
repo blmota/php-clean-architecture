@@ -49,27 +49,27 @@ function __fatalHandler()
 register_shutdown_function('__fatalHandler');
 /* END ERROR REGISTER */
 
-$version_api = "";
-if (preg_match('~^/api/(v(?:1|\d+))/~', $_SERVER['REQUEST_URI'], $matches)) {
-    $version_api = (!empty($matches) ? "'\'v" . preg_replace('/\D/', '', $matches[1]) : "");
-}
+// $version_api = "";
+// if (preg_match('~^/api/(v(?:1|\d+))/~', $_SERVER['REQUEST_URI'], $matches)) {
+//     $version_api = (!empty($matches) ? "'\'v" . preg_replace('/\D/', '', $matches[1]) : "");
+// }
 
-$version_api = (!empty($version_api) ? str_replace("'", "", $version_api) : "");
+// $version_api = (!empty($version_api) ? str_replace("'", "", $version_api) : "");
 
 /**
  * API ROUTES
  * index
  */
 $route = new Router(url(), ":");
-$route->namespace("Source\App\Api" . $version_api);
+//$route->namespace("Source\App\Api" . $version_api);
+$route->namespace("Source\Infra\Controllers\Api");
 
 // remove \
-$version = stripslashes($version_api);
+//$version = stripslashes($version_api);
 
 $route->group("/api");
-$route->get("/{$version}/{club}/me", "Users:index");
-
-$route->post("/{$version}/{club}/sailor/create", "Sailors:addSailor", middleware: \Source\Framework\Middlewares\Transactions\TransactionMiddleware::class);
+$route->post("/me", "AuthController:index");
+//$route->post("/{$version}/{club}/sailor/create", "Sailors:addSailor", middleware: \Source\Framework\Middlewares\Transactions\TransactionMiddleware::class);
 
 
 /**
