@@ -22,8 +22,9 @@ final class Signup extends PdoRepository implements SignupRepository
         $this->last_name = $newUser->getLastName();
         $this->type = $newUser->getType();
         $this->email = (string) $newUser->getEmail();
-        $this->password = passwd((string) $newUser->getPassword());
+        $this->password = (string) $newUser->getPassword();
         $this->level = $newUser->getLevel();
+        $this->status = 1;
 
         if (!$this->save()) {
             throw new Exception($this->message()->getText());
