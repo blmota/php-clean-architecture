@@ -381,7 +381,7 @@ function passwd(string $password): string
  */
 function passwd_verify(string $password, string $hash): bool
 {
-    return md5($password) == $hash;
+    return password_verify($password, $hash);
 }
 
 /**
