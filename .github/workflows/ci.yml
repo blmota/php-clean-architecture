@@ -28,4 +28,4 @@ jobs:
       run: ./vendor/bin/phpunit --configuration phpunit.xml
 
     - name: Lint PHP files
-      run: vendor/bin/phpcs --standard=PSR12 src/
+      run: vendor/bin/phpcs --standard=PSR12 source/
