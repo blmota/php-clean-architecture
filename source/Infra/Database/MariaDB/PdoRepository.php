@@ -270,7 +270,7 @@ abstract class PdoRepository
         }
 
         $conn = (empty(Transaction::get()) 
-            ? Connect::getInstance($this->clubParams["server"], $this->clubParams["path"])
+            ? Connect::getInstance()
             : Transaction::get()
         );
 
@@ -305,7 +305,7 @@ abstract class PdoRepository
             }
 
             $conn = (empty(Transaction::get()) 
-                ? Connect::getInstance($this->clubParams["server"], $this->clubParams["path"])
+                ? Connect::getInstance()
                 : Transaction::get()
             );
 
@@ -352,7 +352,7 @@ abstract class PdoRepository
             parse_str($params, $parameters);
 
             $conn = (empty(Transaction::get()) 
-                ? Connect::getInstance($this->clubParams["server"], $this->clubParams["path"])
+                ? Connect::getInstance()
                 : Transaction::get()
             );
 
@@ -410,7 +410,7 @@ abstract class PdoRepository
      */
     public function lastId(): int
     {
-        return Connect::getInstance($this->clubParams["server"], $this->clubParams["path"])->query("SELECT MAX(id) as maxId FROM {$this->entity}")->fetch()->maxId + 1;
+        return Connect::getInstance()->query("SELECT MAX(id) as maxId FROM {$this->entity}")->fetch()->maxId + 1;
     }
 
     /**
@@ -422,7 +422,7 @@ abstract class PdoRepository
     {
         try {
             $conn = (empty(Transaction::get()) 
-                ? Connect::getInstance($this->clubParams["server"], $this->clubParams["path"])
+                ? Connect::getInstance()
                 : Transaction::get()
             );
 
