@@ -69,6 +69,7 @@ $route->namespace("Source\Infra\Controllers\Api");
 
 $route->group("/api");
 $route->post("/me", "AuthController:index");
+$route->post("/signup", "SignupController:register");
 //$route->post("/{$version}/{club}/sailor/create", "Sailors:addSailor", middleware: \Source\Framework\Middlewares\Transactions\TransactionMiddleware::class);
 
 
