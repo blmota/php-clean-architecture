@@ -51,19 +51,18 @@ class Monolog
                     , Logger::WARNING));
                 break;
             case"email":
-                // Bluware Key -> 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
                 $this->Logger->pushHandler(new SendGridHandler(
                     "apikey",
-                    "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",
-                    "mensagensdosistema@bluware.com.br",
-                    "mensagensdosistema@bluware.com.br",
+                    $_ENV["SENDGRID_APIKEY"],
+                    $_ENV["SENDGRID_EMAIL_FROM"],
+                    $_ENV["SENDGRID_EMAIL_TO"],
                     "Erro em bluware.info/api " . date("d/m/Y H:i:s"),
                     Logger::CRITICAL
                 ));
                 break;
             case"telegram":
-                $bot_key = "5137243564:AAGR7Lary03N_oRhoiMUvz8wGc_yiWcwKqg";
-                $bot_channel = "-1001760379792"; // @BluwareEliteApi
+                $bot_key = $_ENV["TELEGRAM_BOT_KEY"];
+                $bot_channel = $_ENV["TELEGRAM_BOT_CHANNEL"];
                 $tele_handler = new TelegramBotHandler($bot_key, $bot_channel, Logger::EMERGENCY);
                 $tele_handler->setFormatter(new LineFormatter("%level_name%: %message%"));
                 $this->Logger->pushHandler($tele_handler);
