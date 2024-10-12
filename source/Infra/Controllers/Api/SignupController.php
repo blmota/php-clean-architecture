@@ -32,6 +32,8 @@ final class SignupController
             $json = $output->getDataArray();
             echo json_encode(["data" => $json], JSON_PRETTY_PRINT);
         } catch (Throwable $e) {
+            http_response_code($e->getCode());
+
             $error = [
                 "type" => "error",
                 "message" => $e->getMessage()
