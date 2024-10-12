@@ -29,4 +29,15 @@ final class Auth extends PdoRepository implements AuthRepository
 
         return (array) $user->data();
     }
+
+    public function userById(int $userId): array
+    {
+        $user = $this->findById($userId);
+
+        if (empty($user)) {
+            throw new Exception("O usuário não existe.");
+        }
+
+        return (array) $user->data();
+    }
 }

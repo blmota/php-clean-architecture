@@ -40,6 +40,7 @@ class Connect
                         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
                         PDO::ATTR_CASE => PDO::CASE_NATURAL,
+                        PDO::ATTR_TIMEOUT => 10,
                         PDO::ATTR_AUTOCOMMIT => $auto_commit
                     ]
                 );

@@ -16,7 +16,7 @@ final class Signup extends PdoRepository implements SignupRepository
         parent::__construct("users", ["id"], ["first_name", "last_name", "type", "email"]);
     }
 
-    public function execute(User $newUser): array
+    public function register(User $newUser): array
     {
         $this->first_name = $newUser->getFirstName();
         $this->last_name = $newUser->getLastName();

@@ -10,9 +10,20 @@ use Source\Domain\ValueObjects\Cpf;
 
 final class UserPeople extends GeneralEntity
 {
+    private int $userId;
     private Cpf $document;
     private DateTimeInterface $dateBirth;
     private string $genre;
+
+    public function getUserId(): int
+    {
+        return $this->userId;
+    }
+
+    public function setUserId(int $userId): void
+    {
+        $this->userId = $userId;
+    }
 
     public function getDocument(): Cpf
     {

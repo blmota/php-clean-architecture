@@ -70,6 +70,14 @@ $route->namespace("Source\Infra\Controllers\Api");
 $route->group("/api");
 $route->post("/me", "AuthController:index");
 $route->post("/signup", "SignupController:register");
+
+// tranfer
+$route->post("/tranfer/send", "TransferControler:doTransfer");
+
+// wallet
+$route->get("/wallet/balance", "WalletController:balance");
+$route->post("/wallet/register", "WalletController:register");
+
 //$route->post("/{$version}/{club}/sailor/create", "Sailors:addSailor", middleware: \Source\Framework\Middlewares\Transactions\TransactionMiddleware::class);
 
 
