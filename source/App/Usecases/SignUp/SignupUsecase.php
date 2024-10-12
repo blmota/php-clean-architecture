@@ -27,7 +27,7 @@ final class SignupUsecase
         $newUser->setPassword($input->getPassword());
         $newUser->setLevel(1);
 
-        $response = $this->repository->execute($newUser);
+        $response = $this->repository->register($newUser);
         $response["created_at"] = (new DateTime($response["created_at"]))->format("d/m/Y H\hi");
         return new SignupOutputBoundary($response);
     }

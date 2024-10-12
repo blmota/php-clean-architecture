@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Source\Infra\Adapters;
 
 use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use Source\App\Contracts\AuthToken;
 
 final class JwtAdapter implements AuthToken
@@ -32,7 +33,7 @@ final class JwtAdapter implements AuthToken
     public function tokenValidate(string $token): array
     {
         try{
-            $jwt = JWT::decode($token, JWT_SECRET_KEY, ["HS256"]);
+            $jwt = JWT::decode($token, new Key(JWT_SECRET_KEY, "HS256"));
             $jwt->status = true;
             return (array) $jwt;
         } catch (\Exception $err){

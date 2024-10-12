@@ -12,11 +12,11 @@ use Source\Infra\Adapters\JwtAdapter;
 use Source\Infra\Repositories\Auth;
 use Throwable;
 
-final class AuthController extends Api
+final class AuthController
 {
     public function __construct()
     {
-        parent::__construct();
+        header('Content-Type: application/json; charset=UTF-8');
     }
 
     public function index(array $data): void
@@ -26,17 +26,19 @@ final class AuthController extends Api
             $password = new Password($data["password"]);
 
             $input = new AuthInputBoundary($email, $password);
-            $auth = new AuthUsecase(new Auth(), new JwtAdapter);
+            $auth = new AuthUsecase(new Auth(), new JwtAdapter());
             $output = $auth->handle($input);
 
-            $json = $output->getDataArray();
-            $this->back(["data" => $json]);
+            echo json_encode(["data" => $output->getDataArray()], JSON_PRETTY_PRINT);
         } catch (Throwable $e) {
-            $this->call(
-                $e->getCode(),
-                "error",
-                $e->getMessage()
-            )->back();
+            http_response_code($e->getCode());
+
+            echo json_encode([
+                "errors" => [
+                    "type" => "error",
+                    "message" => $e->getMessage()
+                ]
+            ], JSON_PRETTY_PRINT);
         }
     }
 }

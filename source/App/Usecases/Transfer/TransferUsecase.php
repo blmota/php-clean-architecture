@@ -8,7 +8,7 @@ use Exception;
 use Source\Domain\Entities\Transfer as EntitiesTransfer;
 use Source\Domain\Repositories\TransferRepository;
 
-final class Transfer
+final class TransferUsecase
 {
     private TransferRepository $respository;
 

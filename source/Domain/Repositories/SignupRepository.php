@@ -8,5 +8,5 @@ use Source\Domain\Entities\User;
 
 interface SignupRepository
 {
-    public function execute(User $newUser): array;
+    public function register(User $newUser): array;
 }

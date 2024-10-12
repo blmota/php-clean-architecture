@@ -11,8 +11,19 @@ use Source\Domain\ValueObjects\Cnpj;
 
 final class UserCompany extends GeneralEntity
 {
+    private int $userId;
     private Cnpj $document;
     private DateTimeInterface $dateStart;
+
+    public function getUserId(): int
+    {
+        return $this->userId;
+    }
+
+    public function setUserId(int $userId): void
+    {
+        $this->userId = $userId;
+    }
 
     public function getDocument(): Cnpj
     {
