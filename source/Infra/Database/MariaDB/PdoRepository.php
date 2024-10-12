@@ -299,25 +299,15 @@ abstract class PdoRepository
                 }
             }
 
-            $returnnigId = "";
-            if (!empty($this->protected)) {
-                $returnnigId = " RETURNING {$this->protected[0]}";
-            }
-
             $conn = (empty(Transaction::get()) 
                 ? Connect::getInstance()
                 : Transaction::get()
             );
 
-            $stmt = $conn->prepare("INSERT INTO {$this->entity} ({$columns}) VALUES ({$values}) {$returnnigId}");
+            $stmt = $conn->prepare("INSERT INTO {$this->entity} ({$columns}) VALUES ({$values})");
             $stmt->execute($this->filter($dataBindArray));
 
-            if (!empty($this->protected)) {
-                $response = $stmt->fetchObject(static::class);
-                return $response->{$this->protected[0]};
-            }
-
-            return true;
+            return (int) $conn->lastInsertId();
         } catch (PDOException $exception) {
             $this->fail = $exception;
 
@@ -383,9 +373,9 @@ abstract class PdoRepository
         }
 
         /** Update */
-        if (!empty($this->ID)) {
-            $id = $this->ID;
-            $this->update($this->safe(), "ID = :id", "id={$id}");
+        if (!empty($this->id)) {
+            $id = $this->id;
+            $this->update($this->safe(), "id = :id", "id={$id}");
             if ($this->fail()) {
                 $this->message->error("Erro ao atualizar, verifique os dados");
                 return false;
@@ -393,7 +383,7 @@ abstract class PdoRepository
         }
 
         /** Create */
-        if (empty($this->ID)) {
+        if (empty($this->id)) {
             $id = $this->create($this->safe());
             if ($this->fail()) {
                 $this->message->error("Erro ao cadastrar, verifique os dados");
@@ -401,7 +391,7 @@ abstract class PdoRepository
             }
         }
 
-        $this->data = $this->findById((int) $id)->data();
+        $this->data = $this->findById($id)->data();
         return true;
     }
 
