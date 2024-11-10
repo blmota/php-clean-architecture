@@ -18,7 +18,8 @@ class UserDataUsecase
     public function handle(UserDataInputBoundary $input): array
     {
         $output = $this->repository->userById($input->getUserId());
-        return (array) $output;
+        unset($output["password"]);
+        return $output;
         //return new UserDataOutputBoundary($output);
     }
 }

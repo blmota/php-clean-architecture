@@ -27,7 +27,7 @@ abstract class GeneralEntity
         return $this->createdAt ?? null;
     }
 
-    public function setCreatedAt(DateTimeInterface $createdAt): void
+    public function setCreatedAt(?DateTimeInterface $createdAt): void
     {
         $this->createdAt = $createdAt;
     }
@@ -37,7 +37,7 @@ abstract class GeneralEntity
         return $this->updatedAt ?? null;
     }
 
-    public function setUpdatedAt(DateTimeInterface $updatedAt): void
+    public function setUpdatedAt(?DateTimeInterface $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
     }
