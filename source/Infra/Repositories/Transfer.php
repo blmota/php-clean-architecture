@@ -14,7 +14,7 @@ final class Transfer extends PdoRepository implements TransferRepository
 {
     public function __construct()
     {
-        parent::__construct("tranfer", ["id"], ["user_from", "user_to", "value"]);
+        parent::__construct("transfer", ["id"], ["user_from", "user_to", "value"]);
     }
 
     public function execute(EntitiesTransfer $data): EntitiesTransfer
@@ -33,10 +33,10 @@ final class Transfer extends PdoRepository implements TransferRepository
         $transfer->setUserFrom($doTransfer->user_from);
         $transfer->setUserTo($doTransfer->user_to);
         $transfer->setValue($doTransfer->value);
-        $transfer->setCreatedAt((new DateTime($doTransfer->createdAt)));
+        $transfer->setCreatedAt((new DateTime($doTransfer->created_at)));
         
-        if (!empty($doTransfer->updatedAt)) {
-            $transfer->setUpdatedAt((new DateTime($doTransfer->updatedAt)));
+        if (!empty($doTransfer->updated_at)) {
+            $transfer->setUpdatedAt((new DateTime($doTransfer->updated_at)));
         }
 
         return $transfer;

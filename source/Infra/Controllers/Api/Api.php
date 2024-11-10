@@ -2,9 +2,11 @@
 
 namespace Source\Infra\Controllers\Api;
 
+use DateTime;
 use Source\App\Usecases\UserData\UserDataInputBoundary;
 use Source\App\Usecases\UserData\UserDataUsecase;
 use Source\Domain\Entities\User;
+use Source\Domain\ValueObjects\Email;
 use Source\Infra\Adapters\JwtAdapter;
 use Source\Infra\Repositories\Auth;
 
@@ -35,7 +37,7 @@ class Api
             return false;
         }
 
-        $token = (new JwtAdapter)->tokenValidate($this->headers["token"]);
+        $token = (new JwtAdapter())->tokenValidate($this->headers["token"]);
 
         if (!$token["status"]) {
             $this->call(
@@ -48,16 +50,12 @@ class Api
 
         $userId = $token["sub"];
         $input = new UserDataInputBoundary($userId);
-        $userData = (new UserDataUsecase(new Auth))->handle($input);
-        
-        $user = new User;
-        $user->setId($userData["id"]);
-        $user->setFirstName($userData["first_name"]);
-        $user->setLastName($userData["last_name"]);
-        $user->setType($userData["type"]);
-        $user->setEmail($userData["email"]);
-        $user->setLevel($userData["level"]);
-        $user->setStatus($userData["status"]);
+        $userData = (new UserDataUsecase(new Auth()))->handle($input);
+        $userData["created_at"] = new DateTime($userData["created_at"]);
+        $userData["updated_at"] = (!empty($userData["updated_at"]) ? new DateTime($userData["updated_at"]) : null);
+
+        $user = new User();
+        $user->hydrate($userData);
 
         $this->user = $user;
         return true;

@@ -1,4 +1,5 @@
 <?php
+
 ob_start();
 
 require __DIR__ . "/../vendor/autoload.php";
@@ -11,9 +12,9 @@ use CoffeeCode\Router\Router;
 use Source\Framework\Support\Monolog;
 
 header('Access-Control-Allow-Origin: *');
-header ("Access-Control-Expose-Headers: Content-Length, X-JSON");
-header ("Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS");
-header ("Access-Control-Allow-Headers: Content-Type, Authorization, Accept, Accept-Language, X-Authorization, action, email, password, token, credential");
+header("Access-Control-Expose-Headers: Content-Length, X-JSON");
+header("Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization, Accept, Accept-Language, X-Authorization, action, email, password, token, credential");
 header('Access-Control-Max-Age: 86400');
 if ($_SERVER["REQUEST_METHOD"] == "OPTIONS") {
     header("Access-Control-Allow-Headers: zX-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method,Access-Control-Request-Headers, Authorization, action, email, password, token, credential");
@@ -30,14 +31,16 @@ function __fatalHandler()
     $error = error_get_last();
 
     // Check if it's a core/fatal error, otherwise it's a normal shutdown
-    if ($error !== NULL && in_array($error['type'],
-            array(E_ERROR, E_PARSE, E_CORE_ERROR, E_CORE_WARNING,
-                E_COMPILE_ERROR, E_COMPILE_WARNING,E_RECOVERABLE_ERROR))) {
-    //    echo "<pre>fatal error:\n";
-    //    print_r($error);
-    //    echo "</pre>";
-        
-        if(!empty($error['line'])) {
+    if ($error !== null && in_array(
+        $error['type'],
+        array(E_ERROR, E_PARSE, E_CORE_ERROR, E_CORE_WARNING,
+                E_COMPILE_ERROR, E_COMPILE_WARNING,E_RECOVERABLE_ERROR)
+    )) {
+        //    echo "<pre>fatal error:\n";
+        //    print_r($error);
+        //    echo "</pre>";
+
+        if (!empty($error['line'])) {
             $Log = new Monolog("api", "{$error['message']} [{$error['file']} linha: {$error['line']}]");
             $Log->alert();
             $Log->emergency();
@@ -72,7 +75,7 @@ $route->post("/me", "AuthController:index");
 $route->post("/signup", "SignupController:register");
 
 // tranfer
-$route->post("/tranfer/send", "TransferControler:doTransfer");
+$route->post("/transfer/send", "TransferController:doTransfer");
 
 // wallet
 $route->get("/wallet/balance", "WalletController:balance");

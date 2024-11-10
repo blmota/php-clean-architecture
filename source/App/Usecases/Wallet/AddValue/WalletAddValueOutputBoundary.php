@@ -18,7 +18,7 @@ final class WalletAddValueOutputBoundary
         $this->id = $data->getId();
         $this->userId = $data->getUserId();
         $this->value = $data->getValue();
-        $this->createdAt = $data->getCreatedAt();
+        $this->createdAt = $data->getCreatedAt()->format("d/m/Y H:i");
     }
 
     public function getDataArray(): array
