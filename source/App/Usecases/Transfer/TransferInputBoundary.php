@@ -12,7 +12,7 @@ final class TransferInputBoundary
     private User $userTo;
     private float $value;
 
-    public function __construct(int $userFrom, int $userTo, float $value)
+    public function __construct(User $userFrom, User $userTo, float $value)
     {
         $this->userFrom = $userFrom;
         $this->userTo = $userTo;

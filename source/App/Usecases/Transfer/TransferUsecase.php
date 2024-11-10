@@ -27,6 +27,10 @@ final class TransferUsecase
 
         $userTo = $input->getUserTo();
 
+        if ($userFrom->getId() == $userTo->getId()) {
+            throw new Exception("Você não pode realizar transferências para sua própria carteira.");
+        }
+
         $transfer = new EntitiesTransfer();
         $transfer->setUserFrom($userFrom->getId());
         $transfer->setUserTo($userTo->getId());

@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace Source\Domain\Entities;
 
+use Source\Domain\Traits\HydrateTrait;
 use Source\Domain\ValueObjects\Email;
 use Source\Domain\ValueObjects\Password;
 
 final class User extends GeneralEntity
 {
+    use HydrateTrait;
+
     private string $firstName;
     private string $lastName;
     private string $type;

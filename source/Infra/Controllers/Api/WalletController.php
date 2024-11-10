@@ -4,15 +4,10 @@ declare(strict_types=1);
 
 namespace Source\Infra\Controllers\Api;
 
-use Exception;
-use Source\App\Usecases\Wallet\AddValue\WalletAddValueInputBoundary;
-use Source\App\Usecases\Wallet\AddValue\WalletAddValueUsecase;
 use Source\App\Usecases\Wallet\Balance\BalanceInputBoundary;
 use Source\App\Usecases\Wallet\Balance\WalletBalance;
 use Source\App\Usecases\Wallet\Register\WalletRegisterInputBoundary;
 use Source\App\Usecases\Wallet\Register\WalletRegisterUsecase;
-use Source\App\Usecases\Wallet\SubValue\WalletSubValueInputBoundary;
-use Source\App\Usecases\Wallet\SubValue\WalletSubValueUsecase;
 use Source\Framework\Core\Transaction;
 use Source\Infra\Repositories\Wallet;
 use Throwable;

@@ -25,12 +25,14 @@ final class Wallet extends PdoRepository implements WalletRepository
             return null;
         }
 
+        $userWallet->created_at = new DateTime($userWallet->created_at);
+
+        if (!empty($userWallet->updated_at)) {
+            $userWallet->updated_at = new DateTime($userWallet->updated_at);
+        }
+
         $wallet = new EntitiesWallet();
-        $wallet->setId($userWallet->id);
-        $wallet->setUserId($userWallet->user_id);
-        $wallet->setValue($userWallet->value);
-        $wallet->setCreatedAt((new DateTime($userWallet->createdAt)));
-        $wallet->setUpdatedAt((new DateTime($userWallet->updatedAt)));
+        $wallet->hydrate((array) $userWallet->data());
 
         return $wallet;
     }
@@ -46,7 +48,7 @@ final class Wallet extends PdoRepository implements WalletRepository
     public function register(EntitiesWallet $wallet): array
     {
         $userWalletExists = $this->find("user_id = :user", "user={$wallet->getUserId()}")->count();
-        
+
         if ($userWalletExists) {
             throw new Exception("Você pode ter apenas uma carteira.");
         }
@@ -63,7 +65,7 @@ final class Wallet extends PdoRepository implements WalletRepository
 
     public function addValue(int $userId, float $value): EntitiesWallet
     {
-        $wallet = $this->find("userId = :user", "user={$userId}")->fetch();
+        $wallet = $this->find("user_id = :user", "user={$userId}")->fetch();
 
         if (empty($wallet)) {
             throw new Exception("A carteira não existe ou foi removida recentemente.");
@@ -75,19 +77,18 @@ final class Wallet extends PdoRepository implements WalletRepository
             throw new Exception($wallet->message()->getText());
         }
 
+        $wallet->created_at = new DateTime($wallet->created_at);
+        $wallet->updated_at = (!empty($wallet->updated_at) ? new DateTime($wallet->updated_at) : null);
+
         $walletEntity = new EntitiesWallet();
-        $walletEntity->setId($wallet->id);
-        $walletEntity->setUserId($wallet->user_id);
-        $walletEntity->setValue($wallet->value);
-        $walletEntity->setCreatedAt((new DateTime($wallet->createdAt)));
-        $walletEntity->setUpdatedAt((new DateTime($wallet->updatedAt)));
+        $walletEntity->hydrate((array) $wallet->data());
 
         return $walletEntity;
     }
 
     public function subValue(int $userId, float $value): EntitiesWallet
     {
-        $wallet = $this->find("userId = :user", "user={$userId}")->fetch();
+        $wallet = $this->find("user_id = :user", "user={$userId}")->fetch();
 
         if (empty($wallet)) {
             throw new Exception("A carteira não existe ou foi removida recentemente.");
@@ -103,12 +104,11 @@ final class Wallet extends PdoRepository implements WalletRepository
             throw new Exception($wallet->message()->getText());
         }
 
+        $wallet->created_at = new DateTime($wallet->created_at);
+        $wallet->updated_at = (!empty($wallet->updated_at) ? new DateTime($wallet->updated_at) : null);
+
         $walletEntity = new EntitiesWallet();
-        $walletEntity->setId($wallet->id);
-        $walletEntity->setUserId($wallet->user_id);
-        $walletEntity->setValue($wallet->value);
-        $walletEntity->setCreatedAt((new DateTime($wallet->createdAt)));
-        $walletEntity->setUpdatedAt((new DateTime($wallet->updatedAt)));
+        $walletEntity->hydrate((array) $wallet->data());
 
         return $walletEntity;
     }
