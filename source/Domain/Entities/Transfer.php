@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace Source\Domain\Entities;
 
+use Source\Domain\Traits\HydrateTrait;
+
 final class Transfer extends GeneralEntity
 {
+    use HydrateTrait;
+
     private int $userFrom;
     private int $userTo;
     private float $value;

@@ -76,11 +76,11 @@ class Http
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $this->baseUrl);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 14);
-    
-        switch ($this->method){
+
+        switch ($this->method) {
             case "get":
                 // Equivalente ao -X:
-                curl_setopt($ch,CURLOPT_CUSTOMREQUEST, 'GET');
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
                 break;
             case "post":
                 curl_setopt($ch, CURLOPT_POST, 1);
@@ -88,36 +88,37 @@ class Http
                 break;
             case "put":
                 // Equivalente ao -X:
-                curl_setopt($ch,CURLOPT_CUSTOMREQUEST, 'PUT');
-                if(!empty($data)){
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+                if (!empty($data)) {
                     curl_setopt($ch, CURLOPT_POSTFIELDS, $this->data);  //Post Fields
                 }
                 break;
             case "delete":
                 // Equivalente ao -X:
-                curl_setopt($ch,CURLOPT_CUSTOMREQUEST, 'DELETE');
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
                 break;
         }
-    
+
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    
-        if($this->headers) {
+
+        if ($this->headers) {
             curl_setopt($ch, CURLOPT_HTTPHEADER, $this->headers);
         }
-    
+
         $server_output = curl_exec($ch);
-        
+
         if ($server_output == false) {
             $errorCode = curl_errno($ch);
             $err = curl_error($ch);
-            
+
             $errorObject = new stdClass();
             $errorObject->code = $errorCode;
             $errorObject->message = $err;
             $this->error = json_encode($errorObject);
+            throw new Exception("{$errorObject->message} - Code: {$errorObject->code}");
         }
-    
-        curl_close ($ch);
+
+        curl_close($ch);
         $this->response = $server_output;
     }
 }

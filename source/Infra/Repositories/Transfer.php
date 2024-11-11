@@ -28,17 +28,14 @@ final class Transfer extends PdoRepository implements TransferRepository
             throw new TransferFailedException($doTransfer->message()->getText());
         }
 
-        $transfer = new EntitiesTransfer();
-        $transfer->setId($doTransfer->id);
-        $transfer->setUserFrom($doTransfer->user_from);
-        $transfer->setUserTo($doTransfer->user_to);
-        $transfer->setValue($doTransfer->value);
-        $transfer->setCreatedAt((new DateTime($doTransfer->created_at)));
-        
+        $doTransfer->created_at = new DateTime($doTransfer->created_at);
+
         if (!empty($doTransfer->updated_at)) {
-            $transfer->setUpdatedAt((new DateTime($doTransfer->updated_at)));
+            $doTransfer->updated_at = new DateTime($doTransfer->updated_at);
         }
 
+        $transfer = new EntitiesTransfer();
+        $transfer->hydrate((array) $doTransfer->data());
         return $transfer;
     }
 }

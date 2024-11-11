@@ -25,7 +25,8 @@ final class AuthOutputBoundary
         $this->authenticate = $data["authenticate"];
     }
 
-    public function getId(): int{
+    public function getId(): int
+    {
         return $this->id;
     }
 

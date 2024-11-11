@@ -47,7 +47,7 @@ class Paginator
 
     /** @var string */
     private $params;
-	
+
     /**
      * Paginator constructor.
      * @param string|null $link
@@ -79,10 +79,13 @@ class Paginator
         $this->pages = (int)ceil($this->rows / $this->limit);
         $this->page = ($page <= $this->pages ? $this->toPositive($page) : $this->pages);
 
-        $this->offset = (($this->page * $this->limit) - $this->limit >= 0 ? ($this->page * $this->limit) - $this->limit : 0);
+        $this->offset = (($this->page * $this->limit) - $this->limit >= 0
+            ? ($this->page * $this->limit) - $this->limit
+            : 0
+        );
         $this->hash = (!empty($hash) ? "#{$hash}" : null);
-		
-		$this->addGetParams($params);
+
+        $this->addGetParams($params);
 
         if ($this->rows && $this->offset >= $this->rows) {
             header("Location: {$this->link}" . ceil($this->rows / $this->limit));
@@ -131,7 +134,7 @@ class Paginator
     {
         $this->class = (!empty($cssClass) ? $cssClass : "paginator");
 
-        if ($this->rows > $this->limit):
+        if ($this->rows > $this->limit) :
             $paginator = "<nav class=\"{$this->class}\">";
             $paginator .= $this->firstPage($fixedFirstAndLastPage);
             $paginator .= $this->beforePages();
@@ -152,9 +155,11 @@ class Paginator
     private function beforePages()
     {
         $before = null;
-        for ($iPag = $this->page - $this->range; $iPag <= $this->page - 1; $iPag++):
-            if ($iPag >= 1):
-                $before .= "<a class='{$this->class}_item' title=\"{$this->title} {$iPag}\" rel=\"{$iPag}\" href=\"{$this->link}{$iPag}{$this->hash}{$this->params}\" onclick='followToPage(this)'>{$iPag}</a>";
+        for ($iPag = $this->page - $this->range; $iPag <= $this->page - 1; $iPag++) :
+            if ($iPag >= 1) :
+                $before .= "<a class='{$this->class}_item' title=\"{$this->title} {$iPag}\" 
+                    rel=\"{$iPag}\" href=\"{$this->link}{$iPag}{$this->hash}{$this->params}\" 
+                    onclick='followToPage(this)'>{$iPag}</a>";
             endif;
         endfor;
 
@@ -167,9 +172,11 @@ class Paginator
     private function afterPages()
     {
         $after = null;
-        for ($dPag = $this->page + 1; $dPag <= $this->page + $this->range; $dPag++):
-            if ($dPag <= $this->pages):
-                $after .= "<a class='{$this->class}_item' title=\"{$this->title} {$dPag}\" rel=\"{$dPag}\" href=\"{$this->link}{$dPag}{$this->hash}{$this->params}\" onclick='followToPage(this)'>{$dPag}</a>";
+        for ($dPag = $this->page + 1; $dPag <= $this->page + $this->range; $dPag++) :
+            if ($dPag <= $this->pages) :
+                $after .= "<a class='{$this->class}_item' title=\"{$this->title} {$dPag}\" 
+                    rel=\"{$dPag}\" href=\"{$this->link}{$dPag}{$this->hash}{$this->params}\" 
+                    onclick='followToPage(this)'>{$dPag}</a>";
             endif;
         endfor;
 
@@ -183,7 +190,9 @@ class Paginator
     public function firstPage($fixedFirstAndLastPage = true)
     {
         if ($fixedFirstAndLastPage || $this->page != 1) {
-            return "<a class='{$this->class}_item' title=\"{$this->first[0]}\" rel='1' href=\"{$this->link}1{$this->hash}{$this->params}\" onclick='followToPage(this)'>{$this->first[1]}</a>";
+            return "<a class='{$this->class}_item' title=\"{$this->first[0]}\" rel='1' 
+                href=\"{$this->link}1{$this->hash}{$this->params}\" 
+                onclick='followToPage(this)'>{$this->first[1]}</a>";
         }
         return null;
     }
@@ -195,7 +204,9 @@ class Paginator
     public function lastPage($fixedFirstAndLastPage = true)
     {
         if ($fixedFirstAndLastPage || $this->page != $this->pages) {
-            return "<a class='{$this->class}_item' title=\"{$this->last[0]}\" rel=\"{$this->pages}\" href=\"{$this->link}{$this->pages}{$this->hash}{$this->params}\" onclick='followToPage(this)'>{$this->last[1]}</a>";
+            return "<a class='{$this->class}_item' title=\"{$this->last[0]}\" rel=\"{$this->pages}\" 
+                href=\"{$this->link}{$this->pages}{$this->hash}{$this->params}\" 
+                onclick='followToPage(this)'>{$this->last[1]}</a>";
         }
         return null;
     }
@@ -208,7 +219,7 @@ class Paginator
     {
         return ($number >= 1 ? $number : 1);
     }
-	
+
     /**
      * Add get parameters
      * @param array $params
@@ -217,17 +228,16 @@ class Paginator
     private function addGetParams(array $params)
     {
         $this->params = '';
-        
+
         if (count($params) > 0) {
-			
             if (isset($params['page'])) {
                 unset($params['page']);
             }
-            
+
             $this->params  = '&';
             $this->params .= http_build_query($params);
         }
-        
+
         return $this;
     }
 }

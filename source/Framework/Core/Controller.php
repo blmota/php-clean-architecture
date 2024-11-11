@@ -31,9 +31,9 @@ class Controller
 
         // pega dados enviados como json para a api
         $inputData = file_get_contents('php://input');
-        if(!empty($inputData)) {
+        if (!empty($inputData)) {
             $data = json_decode($inputData, true);
-            if(is_array($data)) {
+            if (is_array($data)) {
                 $this->dataJSON = filter_var_array($data, FILTER_DEFAULT);
             }
         }

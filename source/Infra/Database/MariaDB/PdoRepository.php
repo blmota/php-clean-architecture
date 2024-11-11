@@ -30,7 +30,7 @@ abstract class PdoRepository
 
     /** @var string */
     protected $entityAlias;
-    
+
     /** @var array  */
     protected $join;
 
@@ -127,7 +127,7 @@ abstract class PdoRepository
 
     /**
      * Cria um alias para a tabela principal da query
-     * 
+     *
      * @param string $entityAlias
     */
     public function entityAlias(string $alias): PdoRepository
@@ -142,7 +142,7 @@ abstract class PdoRepository
      * @param object $class
      * @param string $term
     */
-    public function join(string $type = "INNER JOIN", string $alias, object $class, string $term): PdoRepository
+    public function join(string $alias, object $class, string $term, string $type = "INNER JOIN"): PdoRepository
     {
         $this->join[] = "{$type} {$class->entity} {$alias} ON {$term}";
         return $this;
@@ -157,12 +157,14 @@ abstract class PdoRepository
     public function find(?string $terms = null, ?string $params = null, string $columns = "*"): PdoRepository
     {
         if ($terms) {
-            $this->query = "SELECT {$columns} FROM {$this->entity} {$this->entityAlias} " . (!empty($this->join) ? implode(' ', $this->join) : '') . " WHERE {$terms}";
+            $this->query = "SELECT {$columns} FROM {$this->entity} {$this->entityAlias} 
+                " . (!empty($this->join) ? implode(' ', $this->join) : '') . " WHERE {$terms}";
             parse_str($params, $this->params);
             return $this;
         }
 
-        $this->query = "SELECT {$columns} FROM {$this->entity} {$this->entityAlias} " . (!empty($this->join) ? implode(' ', $this->join) : '');
+        $this->query = "SELECT {$columns} FROM {$this->entity} {$this->entityAlias} 
+            " . (!empty($this->join) ? implode(' ', $this->join) : '');
         return $this;
     }
 
@@ -225,13 +227,14 @@ abstract class PdoRepository
     public function fetch(bool $all = false): ?PdoRepository
     {
         try {
-            if(!empty($this->params)) {
+            if (!empty($this->params)) {
                 foreach ($this->params as $key => $value) {
                     $this->query = str_replace(":{$key}", $value, $this->query);
                 }
             }
 
-            $conn = (empty(Transaction::get()) 
+            $conn = (
+                empty(Transaction::get())
                 ? Connect::getInstance()
                 : Transaction::get()
             );
@@ -248,7 +251,7 @@ abstract class PdoRepository
         } catch (PDOException $exception) {
             $this->fail = $exception;
 
-            if(!empty(Transaction::get())) {
+            if (!empty(Transaction::get())) {
                 throw new Exception($exception->getMessage());
             }
 
@@ -263,13 +266,14 @@ abstract class PdoRepository
     public function count($key = "id"): int
     {
 
-        if(!empty($this->params)) {
+        if (!empty($this->params)) {
             foreach ($this->params as $key => $value) {
                 $this->query = str_replace(":{$key}", $value, $this->query);
             }
         }
 
-        $conn = (empty(Transaction::get()) 
+        $conn = (
+            empty(Transaction::get())
             ? Connect::getInstance()
             : Transaction::get()
         );
@@ -299,7 +303,8 @@ abstract class PdoRepository
                 }
             }
 
-            $conn = (empty(Transaction::get()) 
+            $conn = (
+                empty(Transaction::get())
                 ? Connect::getInstance()
                 : Transaction::get()
             );
@@ -330,7 +335,7 @@ abstract class PdoRepository
         try {
             $dataSet = [];
             foreach ($data as $bind => $value) {
-                if(!empty($value) || is_int($value)) {
+                if (!empty($value) || is_int($value)) {
                     $dataSet[] = "{$bind} = :{$bind}";
                 } else {
                     $dataSet[] = "{$bind} = NULL";
@@ -341,7 +346,8 @@ abstract class PdoRepository
             $dataSet = implode(", ", $dataSet);
             parse_str($params, $parameters);
 
-            $conn = (empty(Transaction::get()) 
+            $conn = (
+                empty(Transaction::get())
                 ? Connect::getInstance()
                 : Transaction::get()
             );
@@ -411,7 +417,8 @@ abstract class PdoRepository
     public function delete(string $terms, ?string $params): bool
     {
         try {
-            $conn = (empty(Transaction::get()) 
+            $conn = (
+                empty(Transaction::get())
                 ? Connect::getInstance()
                 : Transaction::get()
             );

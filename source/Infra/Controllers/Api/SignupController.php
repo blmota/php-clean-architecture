@@ -27,7 +27,7 @@ final class SignupController
                 $data["password"]
             );
 
-            $register = new SignupUsecase(new Signup);
+            $register = new SignupUsecase(new Signup());
             $output = $register->handle($input);
             $json = $output->getDataArray();
             echo json_encode(["data" => $json], JSON_PRETTY_PRINT);
