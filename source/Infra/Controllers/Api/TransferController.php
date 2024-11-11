@@ -39,12 +39,15 @@ class TransferController extends Api
             $input = new UserDataInputBoundary((int) $data["user_to"]);
             $userToData = (new UserDataUsecase(new Auth()))->handle($input);
             $userToData["created_at"] = new DateTime($userToData["created_at"]);
-            $userToData["updated_at"] = (!empty($userToData["updated_at"]) ? new DateTime($userToData["updated_at"]) : null);
-            
+            $userToData["updated_at"] = (!empty($userToData["updated_at"])
+                ? new DateTime($userToData["updated_at"])
+                : null
+            );
+
             $userTo = new User();
             $userTo->hydrate($userToData);
             $value = floatval($data["value"]);
-            
+
             $inputTransfer = new TransferInputBoundary($userFrom, $userTo, $value);
             $doTransfer = (new TransferUsecase(new Transfer()))->handle($inputTransfer);
 
@@ -59,16 +62,13 @@ class TransferController extends Api
             $validateOperation = new Http("https://util.devi.tools/api/v2/authorize");
             $validateOperation->get();
 
-            if (!empty($validateOperation->getError())) {
-                throw new Exception("{$validateOperation->getError()->message} - Code: {$validateOperation->getError()->code}");
-            }
-
             if ($validateOperation->getResponse()->status != "success") {
-                throw new Exception("A tranferência não pode ser concluída pela operadora, tente novamente mais tarde.");
+                throw new Exception("A tranferência não pode ser concluída pela operadora, 
+                    tente novamente mais tarde.");
             }
 
             Transaction::close();
-            $this->back(["success" => true, "data" => (array) $doTransfer]);
+            $this->back(["success" => true, "data" => $doTransfer->getDataArray()]);
         } catch (Throwable $e) {
             Transaction::rollback();
 

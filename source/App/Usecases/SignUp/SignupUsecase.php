@@ -19,7 +19,7 @@ final class SignupUsecase
 
     public function handle(SignupInputBoundary $input): SignupOutputBoundary
     {
-        $newUser = new User;
+        $newUser = new User();
         $newUser->setFirstName($input->getFirstName());
         $newUser->setLastName($input->getLastName());
         $newUser->setType($input->getType());

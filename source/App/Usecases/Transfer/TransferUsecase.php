@@ -18,7 +18,7 @@ final class TransferUsecase
     }
 
     public function handle(TransferInputBoundary $input): TransferOutputBoundary
-    {   
+    {
         $userFrom = $input->getUserFrom();
 
         if ($userFrom->getType() == "J") {

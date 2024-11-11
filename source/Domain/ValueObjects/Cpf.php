@@ -15,15 +15,15 @@ final class Cpf
         if (!$this->validate($cpf)) {
             throw new CpfInvalidException("O cpf é inválido.");
         }
-        
+
         $this->cpf = $cpf;
     }
 
     public function validate(string $cpf): bool
     {
         // Extrai somente os números
-        $cpf = preg_replace( '/[^0-9]/is', '', $cpf );
-        
+        $cpf = preg_replace('/[^0-9]/is', '', $cpf);
+
         // Verifica se foi informado todos os digitos corretamente
         if (strlen($cpf) != 11) {
             return false;

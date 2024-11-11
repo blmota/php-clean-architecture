@@ -15,7 +15,7 @@ class Transaction
 
     public static function rollback()
     {
-        if(self::$conn) {
+        if (self::$conn) {
             //print_r("ROLLBACK\n\n");
             self::$conn->rollBack();
         }
@@ -23,7 +23,7 @@ class Transaction
 
     public static function get()
     {
-        if(self::$conn) {
+        if (self::$conn) {
             return self::$conn;
         }
 
@@ -32,7 +32,7 @@ class Transaction
 
     public static function close()
     {
-        if(self::$conn) {
+        if (self::$conn) {
             //print_r("CLOSE AND COMMIT\n\n");
             self::$conn->commit();
             self::$conn = null;

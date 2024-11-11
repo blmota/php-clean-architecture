@@ -38,7 +38,7 @@ function password_generate()
     $size = strlen($chars) - 1;
     $password = null;
 
-    for($i=0; $i < 6; $i++) {
+    for ($i = 0; $i < 6; $i++) {
         $password .= $chars[mt_rand(0, $size)];
     }
 
@@ -61,8 +61,12 @@ function str_slug(string $string): string
     $formats = 'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜüÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûýýþÿRr"!@#$%&*()_-+={[}]/?;:.,\\\'<>°ºª';
     $replace = 'aaaaaaaceeeeiiiidnoooooouuuuuybsaaaaaaaceeeeiiiidnoooooouuuyybyRr                                 ';
 
-    $slug = str_replace(["-----", "----", "---", "--"], "-",
-        str_replace(" ", "-",
+    $slug = str_replace(
+        ["-----", "----", "---", "--"],
+        "-",
+        str_replace(
+            " ",
+            "-",
             trim(strtr(utf8_decode($string), utf8_decode($formats), $replace))
         )
     );
@@ -76,7 +80,9 @@ function str_slug(string $string): string
 function str_studly_case(string $string): string
 {
     $string = str_slug($string);
-    $studlyCase = str_replace(" ", "",
+    $studlyCase = str_replace(
+        " ",
+        "",
         mb_convert_case(str_replace("-", " ", $string), MB_CASE_TITLE)
     );
 
@@ -184,7 +190,7 @@ function str_search(?string $search): string
  */
 function url(string $path = null): string
 {
-    if(preg_match("/localhost/", $_SERVER['HTTP_HOST'])) {
+    if (preg_match("/localhost/", $_SERVER['HTTP_HOST'])) {
         if ($path) {
             return CONF_URL_TEST . "/" . ($path[0] == "/" ? mb_substr($path, 1) : $path);
         }
@@ -348,7 +354,7 @@ function current_date_tz(?string $date = null, ?string $addInterval = null, ?str
 {
     $current_date = new DateTime();
 
-    if(!empty($addInterval)) {
+    if (!empty($addInterval)) {
         $current_date->add(new DateInterval($addInterval));
     }
 
@@ -485,18 +491,21 @@ function request_repeat(string $field, string $value): bool
  * ##########################
  */
 
-function toArray(object $data): array {
+function toArray(object $data): array
+{
     return json_decode(json_encode($data), true);
 }
 
-function toObject(array $data): object {
+function toObject(array $data): object
+{
     return (object) $data;
 }
 
 /**
  *  JWT
  */
-function jwt_decode($token) {
+function jwt_decode($token)
+{
     $jwt = explode('.', $token);
 
     // Extract the middle part, base64 decode, then json_decode it
@@ -510,7 +519,8 @@ function jwt_decode($token) {
  * ###############################
  */
 
- function individualPeopleValidationDocument($cpf) {
+function individualPeopleValidationDocument($cpf)
+{
     // Remover caracteres não numéricos
     $cpf = preg_replace('/[^0-9]/', '', $cpf);
 
@@ -557,15 +567,16 @@ function jwt_decode($token) {
 /**
  * REQUESTS
 */
-function cUrl($url, $headers = null, $data = null, $method = "get") {
+function cUrl($url, $headers = null, $data = null, $method = "get")
+{
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL,$url);
+    curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 14);
 
-    switch ($method){
+    switch ($method) {
         case "get":
             // Equivalente ao -X:
-            curl_setopt($ch,CURLOPT_CUSTOMREQUEST, 'GET');
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
             break;
         case "post":
             curl_setopt($ch, CURLOPT_POST, 1);
@@ -573,20 +584,20 @@ function cUrl($url, $headers = null, $data = null, $method = "get") {
             break;
         case "put":
             // Equivalente ao -X:
-            curl_setopt($ch,CURLOPT_CUSTOMREQUEST, 'PUT');
-            if(!empty($data)){
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+            if (!empty($data)) {
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $data);  //Post Fields
             }
             break;
         case "delete":
             // Equivalente ao -X:
-            curl_setopt($ch,CURLOPT_CUSTOMREQUEST, 'DELETE');
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
             break;
     }
 
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-    if($headers) {
+    if ($headers) {
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
     }
 
@@ -595,30 +606,31 @@ function cUrl($url, $headers = null, $data = null, $method = "get") {
     if ($server_output == false) {
         $errorCode = curl_errno($ch);
         $err = curl_error($ch);
-        
+
         $errorObject = new stdClass();
         $errorObject->code = $errorCode;
         $errorObject->error = $err;
         return json_encode($errorObject);
     }
 
-    curl_close ($ch);
+    curl_close($ch);
     return $server_output;
 }
 
 /**
  * JSON COUNTRIES
  */
-function get_country_info($iso = null){
+function get_country_info($iso = null)
+{
     $json = __DIR__ . "/../../Infra/Database/Json/countries.json";
     $countries = json_decode($json, true);
 
-    if(empty($iso)){
+    if (empty($iso)) {
         return $countries;
     }
 
-    foreach ($countries as $country){
-        if($country["iso"] == $iso){
+    foreach ($countries as $country) {
+        if ($country["iso"] == $iso) {
             return $country;
         }
     }

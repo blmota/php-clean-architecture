@@ -12,7 +12,7 @@ final class JwtAdapter implements AuthToken
 {
     public function tokenGenerate(int $userId): ?array
     {
-        if($userId) {
+        if ($userId) {
             $expires_at = strtotime(current_date_tz(null, JWT_DURATION));
 
             $payload = array(
@@ -32,11 +32,11 @@ final class JwtAdapter implements AuthToken
 
     public function tokenValidate(string $token): array
     {
-        try{
+        try {
             $jwt = JWT::decode($token, new Key(JWT_SECRET_KEY, "HS256"));
             $jwt->status = true;
             return (array) $jwt;
-        } catch (\Exception $err){
+        } catch (\Exception $err) {
             return ["status" => false, "error" => $err->getMessage()];
         }
     }
@@ -60,8 +60,10 @@ final class JwtAdapter implements AuthToken
 
     public function refreshTokenValidate(string $token): bool
     {
-        if($token["expires_at"] > strtotime(current_date_tz()) &&
-            $token["secret"] == hash("SHA512", REFRESH_TOKEN_SECRET)) {
+        if (
+            $token["expires_at"] > strtotime(current_date_tz()) &&
+            $token["secret"] == hash("SHA512", REFRESH_TOKEN_SECRET)
+        ) {
             return true;
         }
 
