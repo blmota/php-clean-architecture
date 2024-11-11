@@ -18,7 +18,7 @@ final class WalletRegisterUsecase
 
     public function handle(WalletRegisterInputBoundary $input): WalletRegisterOutputBoundary
     {
-        $newWallet = new Wallet;
+        $newWallet = new Wallet();
         $newWallet->setUserId($input->getUserId());
         $newWallet->setValue(0);
         $response = $this->repository->register($newWallet);

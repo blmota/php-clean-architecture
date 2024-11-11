@@ -20,12 +20,12 @@ class Monolog
     {
         $logger = new Logger($name);
 
-        $logger->pushProcessor(function ($record){
+        $logger->pushProcessor(function ($record) {
             $record["extra"]["HTTP_HOST"] = $_SERVER["HTTP_HOST"];
             $record["extra"]["REQUEST_URI"] = $_SERVER["REQUEST_URI"];
             $record["extra"]["REQUEST_METHOD"] = $_SERVER["REQUEST_METHOD"];
 
-            if(!empty($_SERVER["HTTP_USER_AGENT"])) {
+            if (!empty($_SERVER["HTTP_USER_AGENT"])) {
                 $record["extra"]["HTTP_USER_AGENT"] = $_SERVER["HTTP_USER_AGENT"];
             }
 
@@ -39,18 +39,19 @@ class Monolog
 
     private function levelController($level)
     {
-        switch ($level){
-            case"debug":
+        switch ($level) {
+            case "debug":
                 $this->Logger->pushHandler(new BrowserConsoleHandler(Logger::DEBUG));
                 break;
-            case"file":
+            case "file":
                 $this->Logger->pushHandler(new StreamHandler(
-                    (!empty($this->fileConfig) ? 
-                        __DIR__ . "/../{$this->fileConfig['path']}/{$this->fileConfig['filename']}" : 
-                        __DIR__ . "/../storage/logs/api/log.txt")
-                    , Logger::WARNING));
+                    (!empty($this->fileConfig) ?
+                        __DIR__ . "/../{$this->fileConfig['path']}/{$this->fileConfig['filename']}" :
+                        __DIR__ . "/../storage/logs/api/log.txt"),
+                    Logger::WARNING
+                ));
                 break;
-            case"email":
+            case "email":
                 $this->Logger->pushHandler(new SendGridHandler(
                     "apikey",
                     $_ENV["SENDGRID_APIKEY"],
@@ -60,7 +61,7 @@ class Monolog
                     Logger::CRITICAL
                 ));
                 break;
-            case"telegram":
+            case "telegram":
                 $bot_key = $_ENV["TELEGRAM_BOT_KEY"];
                 $bot_channel = $_ENV["TELEGRAM_BOT_CHANNEL"];
                 $tele_handler = new TelegramBotHandler($bot_key, $bot_channel, Logger::EMERGENCY);

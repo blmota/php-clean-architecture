@@ -20,8 +20,7 @@ final class SignupInputBoundary
         string $email,
         string $password,
         int $level = 1
-    )
-    {
+    ) {
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->type = $type;

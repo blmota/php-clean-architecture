@@ -73,7 +73,7 @@ class Connect
     /**
      * Connect clone.
      */
-    final function __clone()
+    final public function __clone()
     {
     }
 }

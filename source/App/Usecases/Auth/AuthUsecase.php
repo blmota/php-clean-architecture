@@ -16,8 +16,7 @@ final class AuthUsecase
     public function __construct(
         AuthRepository $repository,
         AuthToken $authToken
-    )
-    {
+    ) {
         $this->repository = $repository;
         $this->authToken = $authToken;
     }
