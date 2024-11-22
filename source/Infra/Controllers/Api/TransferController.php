@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Source\Infra\Controllers\Api;
 
-use DateTime;
 use Exception;
 use Source\App\Usecases\Transfer\TransferInputBoundary;
 use Source\App\Usecases\Transfer\TransferUsecase;
@@ -38,11 +37,6 @@ class TransferController extends Api
 
             $input = new UserDataInputBoundary((int) $data["user_to"]);
             $userToData = (new UserDataUsecase(new Auth()))->handle($input);
-            $userToData["created_at"] = new DateTime($userToData["created_at"]);
-            $userToData["updated_at"] = (!empty($userToData["updated_at"])
-                ? new DateTime($userToData["updated_at"])
-                : null
-            );
 
             $userTo = new User();
             $userTo->hydrate($userToData);

@@ -51,12 +51,10 @@ class Api
         $userId = $token["sub"];
         $input = new UserDataInputBoundary($userId);
         $userData = (new UserDataUsecase(new Auth()))->handle($input);
-        $userData["created_at"] = new DateTime($userData["created_at"]);
-        $userData["updated_at"] = (!empty($userData["updated_at"]) ? new DateTime($userData["updated_at"]) : null);
 
         $user = new User();
         $user->hydrate($userData);
-
+        
         $this->user = $user;
         return true;
     }
