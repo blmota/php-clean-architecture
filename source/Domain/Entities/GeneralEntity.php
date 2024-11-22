@@ -5,11 +5,17 @@ declare(strict_types=1);
 namespace Source\Domain\Entities;
 
 use DateTimeInterface;
+use Source\Domain\Attributes\Column;
 
 abstract class GeneralEntity
 {
+    #[Column(name: "id", type: "int")]
     private ?int $id;
+
+    #[Column(name: "created_at", type: "string", customConverter: "DateTime")]
     private ?DateTimeInterface $createdAt;
+
+    #[Column(name: "updated_at", type: "string", customConverter: "DateTime")]
     private ?DateTimeInterface $updatedAt;
 
     public function getId(): ?int

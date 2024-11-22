@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Source\Infra\Repositories;
 
-use DateTime;
 use Exception;
 use Source\Domain\Entities\Wallet as EntitiesWallet;
 use Source\Domain\Repositories\WalletRepository;
@@ -23,12 +22,6 @@ final class Wallet extends PdoRepository implements WalletRepository
 
         if (empty($userWallet)) {
             return null;
-        }
-
-        $userWallet->created_at = new DateTime($userWallet->created_at);
-
-        if (!empty($userWallet->updated_at)) {
-            $userWallet->updated_at = new DateTime($userWallet->updated_at);
         }
 
         $wallet = new EntitiesWallet();
@@ -77,9 +70,6 @@ final class Wallet extends PdoRepository implements WalletRepository
             throw new Exception($wallet->message()->getText());
         }
 
-        $wallet->created_at = new DateTime($wallet->created_at);
-        $wallet->updated_at = (!empty($wallet->updated_at) ? new DateTime($wallet->updated_at) : null);
-
         $walletEntity = new EntitiesWallet();
         $walletEntity->hydrate((array) $wallet->data());
 
@@ -103,9 +93,6 @@ final class Wallet extends PdoRepository implements WalletRepository
         if (!$wallet->save()) {
             throw new Exception($wallet->message()->getText());
         }
-
-        $wallet->created_at = new DateTime($wallet->created_at);
-        $wallet->updated_at = (!empty($wallet->updated_at) ? new DateTime($wallet->updated_at) : null);
 
         $walletEntity = new EntitiesWallet();
         $walletEntity->hydrate((array) $wallet->data());

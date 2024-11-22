@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Source\Infra\Repositories;
 
-use DateTime;
 use Source\Domain\Entities\Transfer as EntitiesTransfer;
 use Source\Domain\Exceptions\TransferFailedException;
 use Source\Domain\Repositories\TransferRepository;
@@ -26,12 +25,6 @@ final class Transfer extends PdoRepository implements TransferRepository
 
         if (!$doTransfer->save()) {
             throw new TransferFailedException($doTransfer->message()->getText());
-        }
-
-        $doTransfer->created_at = new DateTime($doTransfer->created_at);
-
-        if (!empty($doTransfer->updated_at)) {
-            $doTransfer->updated_at = new DateTime($doTransfer->updated_at);
         }
 
         $transfer = new EntitiesTransfer();
