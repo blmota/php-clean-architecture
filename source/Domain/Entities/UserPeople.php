@@ -6,13 +6,21 @@ namespace Source\Domain\Entities;
 
 use DateTime;
 use DateTimeInterface;
+use Source\Domain\Attributes\Column;
 use Source\Domain\ValueObjects\Cpf;
 
 final class UserPeople extends GeneralEntity
 {
+    #[Column(name: "user_id", type: "int")]
     private int $userId;
+
+    #[Column(name: "document", type: "string")]
     private Cpf $document;
+
+    #[Column(name: "date_birth", type: "string", customConverter: "DateTime")]
     private DateTimeInterface $dateBirth;
+
+    #[Column(name: "genre", type: "string")]
     private string $genre;
 
     public function getUserId(): int

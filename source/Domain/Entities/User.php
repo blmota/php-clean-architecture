@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Source\Domain\Entities;
 
+use Source\Domain\Attributes\Column;
 use Source\Domain\Traits\HydrateTrait;
 use Source\Domain\ValueObjects\Email;
 use Source\Domain\ValueObjects\Password;
@@ -12,12 +13,25 @@ final class User extends GeneralEntity
 {
     use HydrateTrait;
 
+    #[Column(name: "first_name", type: "string")]
     private string $firstName;
+
+    #[Column(name: "last_name", type: "string")]
     private string $lastName;
+
+    #[Column(name: "type", type: "string")]
     private string $type;
+
+    #[Column(name: "email", type: "string")]
     private Email $email;
+
+    #[Column(name: "password", type: "string")]
     private ?Password $password;
+
+    #[Column(name: "level", type: "int")]
     private int $level;
+
+    #[Column(name: "status", type: "int")]
     private int $status;
 
     public function getFullName(): string

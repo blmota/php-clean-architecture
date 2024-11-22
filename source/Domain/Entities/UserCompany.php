@@ -6,13 +6,18 @@ namespace Source\Domain\Entities;
 
 use DateTime;
 use DateTimeInterface;
-use DomainException;
+use Source\Domain\Attributes\Column;
 use Source\Domain\ValueObjects\Cnpj;
 
 final class UserCompany extends GeneralEntity
 {
+    #[Column(name: "user_id", type: "int")]
     private int $userId;
+
+    #[Column(name: "document", type: "string")]
     private Cnpj $document;
+
+    #[Column(name: "date_start", type: "string", customConverter: "DateTime")]
     private DateTimeInterface $dateStart;
 
     public function getUserId(): int
