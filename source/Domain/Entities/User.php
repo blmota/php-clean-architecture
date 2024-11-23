@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Source\Domain\Entities;
 
 use Source\Domain\Attributes\Column;
+use Source\Domain\Attributes\Table;
 use Source\Domain\Traits\HydrateTrait;
 use Source\Domain\ValueObjects\Email;
 use Source\Domain\ValueObjects\Password;
 
+#[Table(name: "users")]
 final class User extends GeneralEntity
 {
     use HydrateTrait;
