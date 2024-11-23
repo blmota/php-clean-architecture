@@ -7,8 +7,10 @@ namespace Source\Domain\Entities;
 use DateTime;
 use DateTimeInterface;
 use Source\Domain\Attributes\Column;
+use Source\Domain\Attributes\Table;
 use Source\Domain\ValueObjects\Cnpj;
 
+#[Table(name: "user_company")]
 final class UserCompany extends GeneralEntity
 {
     #[Column(name: "user_id", type: "int")]

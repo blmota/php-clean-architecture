@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Source\Domain\Entities;
 
 use Source\Domain\Attributes\Column;
+use Source\Domain\Attributes\Table;
 use Source\Domain\Traits\HydrateTrait;
 
+#[Table(name: "transfer")]
 final class Transfer extends GeneralEntity
 {
     use HydrateTrait;
